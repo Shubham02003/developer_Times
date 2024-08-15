@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String location = "everything";
   bool isConnection = false;
   late StreamSubscription<ConnectivityResult> subscription;
+  List<Articles> bookmarkedArticles = [];
 
   GestureDetector customTile(String topic) {
     return GestureDetector(
@@ -53,9 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> loadBookmarkedArticles() async {
+    final controller = Provider.of<NewsController>(context, listen: false);
+    bookmarkedArticles = await controller.getBookmarkedArticles();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    loadBookmarkedArticles();
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -118,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: controller.articleModel!.articles!.length,
                     itemBuilder: (context, index) {
                       final article = controller.articleModel!.articles![index];
+                      bool isBookMarked = bookmarkedArticles.contains(article);
                       if (article.urlToImage != null) {
                         return Container(
                           width: double.infinity,
@@ -168,9 +177,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 10),
-                                      child: const Icon(Icons.bookmark),
+                                    GestureDetector(
+                                      onTap: () {
+                                         Provider.of<NewsController>(context,
+                                                listen: false)
+                                            .toggleBookmark(article);
+                                         loadBookmarkedArticles();
+                                      },
+                                      child: Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        child: Icon(
+                                          isBookMarked ? Icons.bookmark_added_rounded : Icons.bookmark_border,
+                                          color: isBookMarked ? Colors.greenAccent : Colors.white,
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -237,8 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class ReadMoreButton extends StatelessWidget {
-  const ReadMoreButton(
-      {super.key, required this.onPressed});
+  const ReadMoreButton({super.key, required this.onPressed});
   final VoidCallback onPressed;
 
   @override
