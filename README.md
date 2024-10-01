@@ -1,16 +1,19 @@
-# news_app
+# News App
 
-A new Flutter project.
+A Flutter-based news application that fetches the latest articles from the [NewsAPI](https://newsapi.org/) and provides users with features like bookmarking articles, browsing headlines, and detailed news views. The app is built following clean architecture principles, ensuring a maintainable and scalable codebase.
+
+## Features
+
+- **Fetch Latest News**: Pulls the latest news articles using the [NewsAPI](https://newsapi.org/).
+- **Bookmark Articles**: Users can bookmark their favorite articles for easy access later.
+- **Error Handling**: Handles network issues and provides a seamless user experience even in case of errors.
+- **Clean Architecture**: Separation of concerns between UI, domain, and data layers for better scalability.
+- **Animations**: Smooth animations for bookmarking and unbookmarking articles, improving the overall user experience.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run this project locally:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/news_app.git
